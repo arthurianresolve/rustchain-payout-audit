@@ -28,7 +28,7 @@ class SourcePathTests(unittest.TestCase):
 
     def test_valid_cached_sources_are_accepted(self):
         self.populate(self.primary)
-        self.assertEqual(source_path.scripts_dir(), self.primary)
+        self.assertTrue(source_path.scripts_dir().samefile(self.primary))
 
     def test_modified_cache_is_rejected_even_with_valid_fallback(self):
         self.populate(self.primary)
@@ -42,7 +42,7 @@ class SourcePathTests(unittest.TestCase):
 
     def test_valid_fallback_is_accepted_when_cache_is_missing(self):
         self.populate(self.fallback)
-        self.assertEqual(source_path.scripts_dir(), self.fallback)
+        self.assertTrue(source_path.scripts_dir().samefile(self.fallback))
 
     def test_modified_fallback_is_rejected(self):
         self.populate(self.fallback)
