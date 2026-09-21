@@ -4,7 +4,8 @@ Status: reproduced locally against the pinned public source; not submitted,
 accepted, or paid. Maintainer novelty and payout eligibility are unconfirmed.
 Prepared for bounty #16471.
 
-Claimant/payout identity: hosted GitHub handle `@arthurianresolve` requested.
+Claimant: `@arthurianresolve`.
+Payout wallet: `RTC417dc819a4a1c3f2237e488bd77f78ba861377f2`.
 Codex assisted with source review, duplicate checks, and the reproduction.
 Requested tier: **10 RTC for one confirmed new defect**. This does not request
 the 35 RTC full-audit base. Maintainer adjudications on #16471 consistently use

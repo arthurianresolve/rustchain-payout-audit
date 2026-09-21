@@ -3,7 +3,8 @@
 Status: reproduced locally; not submitted, accepted, or paid. Maintainer novelty
 and payout eligibility are unconfirmed. Prepared for bounty #16471.
 
-Claimant/payout identity: `@arthurianresolve` (hosted handle requested).
+Claimant: `@arthurianresolve`.
+Payout wallet: `RTC417dc819a4a1c3f2237e488bd77f78ba861377f2`.
 Codex assisted with source review, duplicate checks, and the reproduction.
 
 ## Summary
