@@ -1,6 +1,7 @@
 """Locate the exact upstream scripts used by the offline reproductions."""
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 
 PINNED_COMMIT = "b1a9d98eb2ceedeeadc746568977262eb76464cf"
@@ -11,6 +12,11 @@ UPSTREAM_BLOBS = {
 }
 
 
+def git_blob_sha(data: bytes) -> str:
+    header = f"blob {len(data)}\0".encode()
+    return hashlib.sha1(header + data, usedforsecurity=False).hexdigest()
+
+
 def scripts_dir() -> Path:
     root = Path(__file__).resolve().parent
     candidates = (
@@ -19,9 +25,16 @@ def scripts_dir() -> Path:
     )
     for candidate in candidates:
         if all((candidate / filename).is_file() for filename in UPSTREAM_BLOBS):
+            for filename, expected_sha in UPSTREAM_BLOBS.items():
+                actual_sha = git_blob_sha((candidate / filename).read_bytes())
+                if actual_sha != expected_sha:
+                    raise SystemExit(
+                        f"{candidate / filename}: expected Git blob {expected_sha}, "
+                        f"got {actual_sha}. Run `python prepare_source.py` to "
+                        "restore the pinned sources."
+                    )
             return candidate
     raise SystemExit(
         "Pinned upstream scripts are missing. Run `python prepare_source.py` "
         "from the audit artifact directory first."
     )
-

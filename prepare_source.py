@@ -1,21 +1,15 @@
 """Fetch and verify the exact public upstream scripts used by the reproductions."""
 from __future__ import annotations
 
-import hashlib
 from pathlib import Path
 import urllib.request
 
-from source_path import PINNED_COMMIT, UPSTREAM_BLOBS
+from source_path import PINNED_COMMIT, UPSTREAM_BLOBS, git_blob_sha
 
 BASE_URL = (
     "https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/"
     f"{PINNED_COMMIT}/scripts"
 )
-
-
-def git_blob_sha(data: bytes) -> str:
-    header = f"blob {len(data)}\0".encode()
-    return hashlib.sha1(header + data, usedforsecurity=False).hexdigest()
 
 
 def main() -> None:
@@ -39,4 +33,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

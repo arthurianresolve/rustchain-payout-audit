@@ -1,4 +1,4 @@
-# Candidate report: one review can be paid once per claim issue
+# Candidate report: two claim issues can queue two payments for one PR review
 
 Status: reproduced locally against the pinned public source; not submitted,
 accepted, or paid. Maintainer novelty and payout eligibility are unconfirmed.
@@ -17,9 +17,9 @@ reviewer of the referenced PR, but it never verifies that the same review or
 PR already has another eligible claim. The payout worker uses the claim issue
 number, rather than the review or PR identity, in its idempotency key. Two claim
 issues from the same reviewer for one review can therefore both pass the gate
-and create distinct RTC transfers. Every simulated API operation succeeds, both
-scripts return success, and the resulting payment is wrong under #73's “one
-bounty per PR” rule.
+and create distinct pending RTC transfer records. Every simulated API operation
+succeeds and both scripts return success, despite scheduling the same work twice
+under #73's “one bounty per PR” rule. Settlement is not exercised by this fixture.
 
 At upstream commit `b1a9d98eb2ceedeeadc746568977262eb76464cf`:
 
@@ -45,10 +45,11 @@ source, and the offline reproduction passed again without modification.
 
 ## Reproduction
 
-From the workspace root:
+From the root of this repository:
 
 ```text
-python audit-16471/reproduce_duplicate_review_claim.py
+python prepare_source.py
+python reproduce_duplicate_review_claim.py
 ```
 
 The harness executes the unmodified pinned gate and payout scripts. It replaces
@@ -72,7 +73,8 @@ No real network request, issue mutation, or RTC transfer occurred.
 ```
 
 The control matters: retrying claim 21001 with its original idempotency key
-returns the same pending record. The node's retry protection is functioning.
+returns the same pending record. The fixture models node retry protection as
+functioning; it does not test the live node.
 The extra transfer exists only because claim 21002 receives another issue-based
 key for the same underlying review.
 

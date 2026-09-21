@@ -37,10 +37,11 @@ one later complete retry, the complete retry stays outside every batch.
 
 ## Reproduction
 
-From the workspace root:
+From the root of this repository:
 
 ```text
-python audit-16471/reproduce_backfill_starvation.py
+python prepare_source.py
+python reproduce_backfill_starvation.py
 ```
 
 The script executes both unmodified upstream `main()` functions from the pinned
